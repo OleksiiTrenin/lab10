@@ -57,6 +57,8 @@ function Booking() {
     <div className="booking-container">
       <h2>Вибір місць - Сеанс {id}</h2>
       <CinemaHall movieId={id} selectedSeats={selectedSeats} setSelectedSeats={setSelectedSeats} />
+      <button className="pay-btn" onClick={handleBooking}>Забронювати</button>
+      <ToastContainer />
     </div>
   );
 }
