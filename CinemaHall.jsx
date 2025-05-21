@@ -39,17 +39,23 @@ function CinemaHall({
   useEffect(() => {
     if (!seatsByShowtime[selectedShowtime]) {
       const newSeats = generateSeats();
+      const bookedSeats = BookingService.getBookedSeats(movieId, selectedShowtime);
+      const updatedSeats = newSeats.map(seat => ({
+        ...seat,
+        booked: bookedSeats.includes(seat.id) || seat.booked,
+      }));
       setSeatsByShowtime(prev => ({
         ...prev,
-        [selectedShowtime]: newSeats,
+        [selectedShowtime]: updatedSeats,
       }));
-      setSeats(newSeats);
+      setSeats(updatedSeats);
     } else {
       const currentSeats = seatsByShowtime[selectedShowtime];
-      const selectedSeatsForTime = selectedSeatsByShowtime[selectedShowtime] || [];
+      const bookedSeats = BookingService.getBookedSeats(movieId, selectedShowtime);
       const updatedSeats = currentSeats.map(seat => ({
         ...seat,
-        selected: selectedSeatsForTime.includes(seat.id),
+        selected: selectedSeatsByShowtime[selectedShowtime]?.includes(seat.id) || false,
+        booked: bookedSeats.includes(seat.id) || seat.booked,
       }));
       setSeats(updatedSeats);
       setSeatsByShowtime(prev => ({
@@ -57,7 +63,7 @@ function CinemaHall({
         [selectedShowtime]: updatedSeats,
       }));
     }
-  }, [selectedShowtime, seatsByShowtime, selectedSeatsByShowtime]);
+  }, [selectedShowtime, seatsByShowtime, selectedSeatsByShowtime, movieId]);
 
   const handleSeatClick = (seatId) => {
     const seat = seats.find(s => s.id === seatId);
@@ -135,7 +141,5 @@ function CinemaHall({
     </div>
   );
 }
-
-export default CinemaHall;
 
 export default CinemaHall;
