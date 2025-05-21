@@ -56,7 +56,7 @@ function Booking() {
   return (
     <div className="booking-container">
       <h2>Вибір місць - Сеанс {id}</h2>
-      <CinemaHall />
+      <CinemaHall movieId={id} selectedSeats={selectedSeats} setSelectedSeats={setSelectedSeats} />
     </div>
   );
 }
