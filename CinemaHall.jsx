@@ -130,7 +130,7 @@ function CinemaHall({
               return sum + (seat ? seat.price : 0);
             }, 0)} грн
           </div>
-          <button className="pay-btn">Замовити</button>
+          <button className="pay-btn" onClick={onBookClick}>Забронювати</button>
         </div>
       </div>
     </div>
