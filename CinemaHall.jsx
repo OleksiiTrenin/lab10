@@ -1,14 +1,25 @@
 import React, { useState, useEffect } from 'react';
+import BookingService from '../services/BookingService';
 import './CinemaHall.css';
 
-function CinemaHall() {
+function CinemaHall({
+  movieId,
+  selectedSeats,
+  setSelectedSeats,
+  onBookClick,
+  showForm,
+  setShowForm,
+  userData,
+  handleInputChange,
+  errors,
+  handleSubmitBooking,
+}) {
   const [seats, setSeats] = useState([]);
-  const [selectedSeatsByShowtime, setSelectedSeatsByShowtime] = useState({}); 
+  const [selectedSeatsByShowtime, setSelectedSeatsByShowtime] = useState({});
   const [showtimes] = useState(['16:20', '17:00', '17:40', '19:00']);
   const [selectedShowtime, setSelectedShowtime] = useState('16:20');
   const [seatsByShowtime, setSeatsByShowtime] = useState({});
 
-  
   const generateSeats = () => {
     return Array(96).fill().map((_, index) => {
       const row = Math.floor(index / 12) + 1;
@@ -25,10 +36,8 @@ function CinemaHall() {
     });
   };
 
- 
   useEffect(() => {
     if (!seatsByShowtime[selectedShowtime]) {
-   
       const newSeats = generateSeats();
       setSeatsByShowtime(prev => ({
         ...prev,
@@ -36,9 +45,7 @@ function CinemaHall() {
       }));
       setSeats(newSeats);
     } else {
-      
       const currentSeats = seatsByShowtime[selectedShowtime];
-      
       const selectedSeatsForTime = selectedSeatsByShowtime[selectedShowtime] || [];
       const updatedSeats = currentSeats.map(seat => ({
         ...seat,
@@ -59,12 +66,10 @@ function CinemaHall() {
         s.id === seatId ? { ...s, selected: !s.selected } : s
       );
       setSeats(updatedSeats);
-      
       setSeatsByShowtime(prev => ({
         ...prev,
         [selectedShowtime]: updatedSeats,
       }));
-     
       const currentSelectedSeats = selectedSeatsByShowtime[selectedShowtime] || [];
       const newSelectedSeats = currentSelectedSeats.includes(seatId)
         ? currentSelectedSeats.filter(id => id !== seatId)
@@ -80,7 +85,6 @@ function CinemaHall() {
     setSelectedShowtime(time);
   };
 
- 
   const currentSelectedSeats = selectedSeatsByShowtime[selectedShowtime] || [];
 
   return (
@@ -131,5 +135,7 @@ function CinemaHall() {
     </div>
   );
 }
+
+export default CinemaHall;
 
 export default CinemaHall;
