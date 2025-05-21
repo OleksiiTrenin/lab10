@@ -58,6 +58,36 @@ function Booking() {
       <h2>Вибір місць - Сеанс {id}</h2>
       <CinemaHall movieId={id} selectedSeats={selectedSeats} setSelectedSeats={setSelectedSeats} />
       <button className="pay-btn" onClick={handleBooking}>Забронювати</button>
+      {showForm && (
+        <div className="booking-form">
+          <h3>Введіть дані для бронювання</h3>
+          <input
+            type="text"
+            name="name"
+            value={userData.name}
+            onChange={handleInputChange}
+            placeholder="Ім'я"
+          />
+          {errors.name && <span className="error">{errors.name}</span>}
+          <input
+            type="text"
+            name="phone"
+            value={userData.phone}
+            onChange={handleInputChange}
+            placeholder="Телефон (наприклад, +380XXXXXXXXX)"
+          />
+          {errors.phone && <span className="error">{errors.phone}</span>}
+          <input
+            type="email"
+            name="email"
+            value={userData.email}
+            onChange={handleInputChange}
+            placeholder="Email"
+          />
+          {errors.email && <span className="error">{errors.email}</span>}
+          <button onClick={handleSubmitBooking}>Підтвердити</button>
+        </div>
+      )}
       <ToastContainer />
     </div>
   );
