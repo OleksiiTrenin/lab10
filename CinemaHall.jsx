@@ -2,18 +2,7 @@ import React, { useState, useEffect } from 'react';
 import BookingService from '../services/BookingService';
 import './CinemaHall.css';
 
-function CinemaHall({
-  movieId,
-  selectedSeats,
-  setSelectedSeats,
-  onBookClick,
-  showForm,
-  setShowForm,
-  userData,
-  handleInputChange,
-  errors,
-  handleSubmitBooking,
-}) {
+function CinemaHall({ movieId, selectedSeats, setSelectedSeats }) {
   const [seats, setSeats] = useState([]);
   const [showtimes] = useState(['16:20', '17:00', '17:40', '19:00']);
   const [selectedShowtime, setSelectedShowtime] = useState('16:20');
@@ -130,7 +119,6 @@ function CinemaHall({
               return sum + (seat ? seat.price : 0);
             }, 0)} грн
           </div>
-          <button className="pay-btn" onClick={onBookClick}>Забронювати</button>
         </div>
       </div>
     </div>
