@@ -1,0 +1,108 @@
+.app-container {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+}
+
+.app-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 20; 
+}
+
+.logo {
+  color: #ffd700; 
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-menu a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.nav-menu a:hover {
+  color: #ffd700;
+}
+
+
+.nav-menu .search-input {
+  padding: 8px 12px;
+  border: 1px solid #444;
+  border-radius: 20px; 
+  background: #333;
+  color: white;
+  font-size: 14px;
+  outline: none;
+  width: 150px; 
+  transition: width 0.3s ease;
+}
+
+.nav-menu .search-input::placeholder {
+  color: #aaa;
+}
+
+.nav-menu .search-input:focus {
+  width: 200px; 
+  border-color: #ffd700;
+}
+
+@media (max-width: 768px) {
+  .logo {
+    font-size: 20px;
+  }
+
+  .nav-menu {
+    gap: 15px;
+  }
+
+  .nav-menu a {
+    font-size: 14px;
+  }
+
+  .nav-menu .search-input {
+    width: 120px;
+    font-size: 12px;
+  }
+
+  .nav-menu .search-input:focus {
+    width: 160px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    font-size: 16px;
+  }
+
+  .nav-menu {
+    gap: 10px;
+  }
+
+  .nav-menu a {
+    font-size: 12px;
+  }
+
+  .nav-menu .search-input {
+    width: 100px;
+    font-size: 10px;
+  }
+
+  .nav-menu .search-input:focus {
+    width: 140px;
+  }
+}
