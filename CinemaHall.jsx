@@ -15,7 +15,6 @@ function CinemaHall({
   handleSubmitBooking,
 }) {
   const [seats, setSeats] = useState([]);
-  const [selectedSeatsByShowtime, setSelectedSeatsByShowtime] = useState({});
   const [showtimes] = useState(['16:20', '17:00', '17:40', '19:00']);
   const [selectedShowtime, setSelectedShowtime] = useState('16:20');
   const [seatsByShowtime, setSeatsByShowtime] = useState({});
@@ -54,7 +53,7 @@ function CinemaHall({
       const bookedSeats = BookingService.getBookedSeats(movieId, selectedShowtime);
       const updatedSeats = currentSeats.map(seat => ({
         ...seat,
-        selected: selectedSeatsByShowtime[selectedShowtime]?.includes(seat.id) || false,
+        selected: selectedSeats.includes(seat.id),
         booked: bookedSeats.includes(seat.id) || seat.booked,
       }));
       setSeats(updatedSeats);
@@ -63,7 +62,7 @@ function CinemaHall({
         [selectedShowtime]: updatedSeats,
       }));
     }
-  }, [selectedShowtime, seatsByShowtime, selectedSeatsByShowtime, movieId]);
+  }, [selectedShowtime, seatsByShowtime, selectedSeats, movieId]);
 
   const handleSeatClick = (seatId) => {
     const seat = seats.find(s => s.id === seatId);
@@ -72,17 +71,15 @@ function CinemaHall({
         s.id === seatId ? { ...s, selected: !s.selected } : s
       );
       setSeats(updatedSeats);
+      setSelectedSeats(prev => {
+        const newSelected = prev.includes(seatId)
+          ? prev.filter(id => id !== seatId)
+          : [...prev, seatId];
+        return newSelected;
+      });
       setSeatsByShowtime(prev => ({
         ...prev,
         [selectedShowtime]: updatedSeats,
-      }));
-      const currentSelectedSeats = selectedSeatsByShowtime[selectedShowtime] || [];
-      const newSelectedSeats = currentSelectedSeats.includes(seatId)
-        ? currentSelectedSeats.filter(id => id !== seatId)
-        : [...currentSelectedSeats, seatId];
-      setSelectedSeatsByShowtime(prev => ({
-        ...prev,
-        [selectedShowtime]: newSelectedSeats,
       }));
     }
   };
@@ -90,8 +87,6 @@ function CinemaHall({
   const handleShowtimeClick = (time) => {
     setSelectedShowtime(time);
   };
-
-  const currentSelectedSeats = selectedSeatsByShowtime[selectedShowtime] || [];
 
   return (
     <div className="cinema-hall-container">
@@ -127,10 +122,10 @@ function CinemaHall({
             ))}
           </div>
           <div className="selected-seats">
-            Вибрані місця: {currentSelectedSeats.length > 0 ? currentSelectedSeats.join(', ') : 'Немає'}
+            Вибрані місця: {selectedSeats.length > 0 ? selectedSeats.join(', ') : 'Немає'}
           </div>
           <div className="total-price">
-            Загальна сума: {currentSelectedSeats.reduce((sum, id) => {
+            Загальна сума: {selectedSeats.reduce((sum, id) => {
               const seat = seats.find(s => s.id === id);
               return sum + (seat ? seat.price : 0);
             }, 0)} грн
